@@ -68,4 +68,4 @@ if uploaded_file is not None:
 
     
     st.info(f"Confidence: {confidence:.2f}%")
-```
+
