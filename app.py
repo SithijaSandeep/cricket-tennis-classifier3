@@ -11,8 +11,8 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 # ============================================================
 
 st.set_page_config(
-    page_title="Neon AI Ball Classifier",
-    page_icon="⚡",
+    page_title="AI Ball Classifier",
+    page_icon="🎯",
     layout="centered"
 )
 
@@ -23,35 +23,23 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* Google Font */
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-html, body, [class*="css"] {
-    font-family: 'Poppins', sans-serif;
-}
-
-/* Background */
+/* Main Background */
 
 .stApp {
-
     background: linear-gradient(
-        -45deg,
-        #0f0c29,
-        #302b63,
-        #24243e,
-        #1f1147,
-        #3a1c71
+        135deg,
+        #0f172a,
+        #111827,
+        #1e1b4b,
+        #312e81
     );
-
     background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
+    animation: gradientBG 15s ease infinite;
 }
 
-/* Animated Gradient */
+/* Animated Background */
 
-@keyframes gradient {
-
+@keyframes gradientBG {
     0% {
         background-position: 0% 50%;
     }
@@ -65,167 +53,96 @@ html, body, [class*="css"] {
     }
 }
 
-/* Main Glass Container */
+/* Main Container */
 
-.main-container {
-
+.main-box {
     background: rgba(255,255,255,0.08);
-
-    backdrop-filter: blur(18px);
-
+    backdrop-filter: blur(15px);
     border: 1px solid rgba(255,255,255,0.15);
-
-    border-radius: 30px;
-
-    padding: 40px;
-
-    box-shadow:
-        0px 8px 32px rgba(0,0,0,0.45),
-        0px 0px 20px rgba(168,85,247,0.2);
-
+    border-radius: 25px;
+    padding: 35px;
+    box-shadow: 0px 10px 40px rgba(0,0,0,0.4);
 }
 
-/* Main Title */
+/* Title */
 
 .main-title {
-
     text-align: center;
-
-    font-size: 52px;
-
+    font-size: 48px;
     font-weight: 800;
-
-    background: linear-gradient(
-        to right,
-        #38bdf8,
-        #818cf8,
-        #c084fc,
-        #f472b6
-    );
-
-    -webkit-background-clip: text;
-
-    -webkit-text-fill-color: transparent;
-
+    color: white;
     margin-bottom: 10px;
 }
 
 /* Subtitle */
 
 .sub-title {
-
     text-align: center;
-
-    color: #dbeafe;
-
     font-size: 18px;
-
+    color: #dbeafe;
     margin-bottom: 35px;
 }
 
 /* Upload Box */
 
 [data-testid="stFileUploader"] {
-
-    background: rgba(255,255,255,0.06);
-
-    border: 2px dashed #a855f7;
-
-    border-radius: 22px;
-
+    background: rgba(255,255,255,0.08);
+    border: 2px dashed #60a5fa;
+    border-radius: 20px;
     padding: 25px;
-
-    transition: 0.3s ease;
-}
-
-[data-testid="stFileUploader"]:hover {
-
-    border-color: #38bdf8;
-
-    transform: scale(1.01);
 }
 
 /* Uploaded Image */
 
-img {
-
-    border-radius: 22px;
-
-    border: 3px solid rgba(255,255,255,0.15);
-
-    box-shadow:
-        0px 10px 30px rgba(0,0,0,0.5),
-        0px 0px 20px rgba(56,189,248,0.25);
+.image-container img {
+    border-radius: 20px;
+    border: 4px solid rgba(255,255,255,0.2);
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.5);
 }
 
 /* Result Card */
 
 .result-card {
-
-    margin-top: 30px;
-
     background: linear-gradient(
         135deg,
         #06b6d4,
         #3b82f6,
-        #8b5cf6,
-        #ec4899
+        #8b5cf6
     );
 
-    padding: 30px;
-
-    border-radius: 28px;
-
+    padding: 25px;
+    border-radius: 25px;
     text-align: center;
-
     color: white;
+    margin-top: 30px;
 
-    box-shadow:
-        0px 10px 35px rgba(139,92,246,0.5),
-        0px 0px 25px rgba(236,72,153,0.3);
+    box-shadow: 0px 10px 30px rgba(59,130,246,0.4);
 }
 
 /* Prediction Text */
 
-.prediction {
-
+.prediction-text {
     font-size: 34px;
-
-    font-weight: 700;
-
-    margin-bottom: 15px;
+    font-weight: bold;
+    margin-bottom: 12px;
 }
 
-/* Confidence */
+/* Confidence Text */
 
-.confidence {
-
+.confidence-text {
     font-size: 22px;
-
-    font-weight: 500;
 }
 
 /* Footer */
 
 .footer {
-
     text-align: center;
-
     color: #cbd5e1;
-
     margin-top: 35px;
-
     font-size: 14px;
 }
 
-/* Spinner Text */
-
-.stSpinner > div {
-
-    color: white !important;
-}
-
-/* Hide Streamlit Branding */
+/* Hide Streamlit Footer */
 
 footer {
     visibility: hidden;
@@ -261,15 +178,15 @@ IMG_SIZE = (160, 160)
 # MAIN UI
 # ============================================================
 
-st.markdown('<div class="main-container">', unsafe_allow_html=True)
+st.markdown('<div class="main-box">', unsafe_allow_html=True)
 
 st.markdown(
-    '<div class="main-title">⚡ AI Ball Classifier</div>',
+    '<div class="main-title">🎯 AI Ball Classifier</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<div class="sub-title">Modern Deep Learning Image Classification Experience</div>',
+    '<div class="sub-title">Upload a Cricket Ball or Tennis Ball image and let AI identify it instantly</div>',
     unsafe_allow_html=True
 )
 
@@ -291,11 +208,15 @@ if uploaded_file is not None:
     # Open Image
     image = Image.open(uploaded_file).convert("RGB")
 
-    # Display Image
+    # Show Image
+    st.markdown('<div class="image-container">', unsafe_allow_html=True)
+
     st.image(
         image,
         use_container_width=True
     )
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
     # Resize Image
     image = image.resize(IMG_SIZE)
@@ -303,7 +224,7 @@ if uploaded_file is not None:
     # Convert to Array
     img_array = np.array(image)
 
-    # Float32
+    # Convert to float32
     img_array = img_array.astype(np.float32)
 
     # Preprocess
@@ -313,8 +234,9 @@ if uploaded_file is not None:
     img_array = np.expand_dims(img_array, axis=0)
 
     # Loading Animation
-    with st.spinner("⚡ AI is analyzing your image..."):
+    with st.spinner("🤖 AI is analyzing the image..."):
 
+        # Prediction
         prediction = model.predict(img_array)
 
     # Get Prediction
@@ -330,11 +252,11 @@ if uploaded_file is not None:
     st.markdown(f"""
     <div class="result-card">
 
-        <div class="prediction">
-            🎯 Prediction: {predicted_class}
+        <div class="prediction-text">
+            🧠 Prediction: {predicted_class}
         </div>
 
-        <div class="confidence">
+        <div class="confidence-text">
             📊 Confidence: {confidence:.2f}%
         </div>
 
@@ -348,7 +270,7 @@ if uploaded_file is not None:
 st.markdown(
     """
     <div class="footer">
-        🚀 Powered by TensorFlow • Streamlit • MobileNetV2
+        🚀 Powered by TensorFlow + Streamlit
     </div>
     """,
     unsafe_allow_html=True
